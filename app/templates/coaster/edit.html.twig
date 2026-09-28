@@ -1,0 +1,25 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ coaster.name }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold mb-6">Modifier {{ coaster.name }}</h1>
+
+    <div class="bg-base-100 rounded-box shadow p-6 max-w-md">
+        {{ form_start(form) }}
+            <div class="flex flex-col gap-4">
+                {{ form_row(form.name) }}
+                {{ form_row(form.maxSpeed) }}
+                {{ form_row(form.length) }}
+                {{ form_row(form.maxHeight) }}
+                <label class="label cursor-pointer justify-start gap-3">
+                    {{ form_widget(form.operating) }}
+                    <span class="label-text">En service</span>
+                </label>
+            </div>
+            <button class="btn btn-primary mt-6" type="submit">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('coaster_index') }}" class="btn btn-ghost mt-4">Retour à la liste</a>
+{% endblock %}
