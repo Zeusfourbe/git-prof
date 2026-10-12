@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste des Parcs{% endblock %}
+
+{% block body %}
+    <div class="flex justify-between items-center mb-4">
+        <h1 class="text-2xl font-bold">Liste des Parcs</h1>
+        <a href="{{ path('app_park_new') }}" class="btn btn-primary">+ Ajouter un Parc</a>
+    </div>
+
+    <div class="overflow-x-auto bg-base-100 rounded-box shadow">
+        <table class="table table-zebra">
+            <thead>
+                <tr>
+                    <th>Nom</th>
+                    <th>Pays</th>
+                    <th>Année d'ouverture</th>
+                    <th>Coasters</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for park in parks %}
+                    <tr>
+                        <td class="font-medium">{{ park.name }}</td>
+                        <td>{{ park.country }}</td>
+                        <td>{{ park.openingYear ?? '—' }}</td>
+                        <td><span class="badge badge-neutral">{{ park.coasters|length }}</span></td>
+                        <td class="text-right space-x-2">
+                            <a href="{{ path('app_park_edit', {id: park.id}) }}" class="btn btn-sm btn-secondary">Modifier</a>
+                            <form method="post" action="{{ path('app_park_delete', {id: park.id}) }}" class="inline" onsubmit="return confirm('Supprimer ce parc ?');">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ park.id) }}">
+                                <button class="btn btn-sm btn-error" type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5" class="text-center py-8 opacity-60">Aucun parc pour le moment.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

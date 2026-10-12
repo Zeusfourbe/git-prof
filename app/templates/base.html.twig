@@ -20,12 +20,27 @@
         {% endif %}
     </head>
     <body>
+    {% set route = app.request.attributes.get('_route') ?? '' %}
     <main class="flex flex-nowrap h-[100vh]">
         <div class="flex flex-col shrink-0 shadow w-[240px] bg-base-200">
             <div class="py-2 bg-primary text-center text-white font-bold">Wiki Coaster</div>
-            <nav class="flex flex-col p-2 gap-1">
-                <a href="{{ path('coaster_index') }}" class="btn btn-ghost justify-start">Coasters</a>
-            </nav>
+            <ul class="menu w-full p-2 gap-1">
+                <li>
+                    <a href="{{ path('coaster_index') }}" class="{{ route starts with 'coaster_' ? 'menu-active' : '' }}">
+                        <i class="bi bi-lightning-charge-fill"></i> Coasters
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_park_index') }}" class="{{ route starts with 'app_park_' ? 'menu-active' : '' }}">
+                        <i class="bi bi-tree-fill"></i> Parcs
+                    </a>
+                </li>
+                <li>
+                    <a href="{{ path('app_category_index') }}" class="{{ route starts with 'app_category_' ? 'menu-active' : '' }}">
+                        <i class="bi bi-tags-fill"></i> Catégories
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="p-6 flex-grow-1 overflow-y-auto">
             {% block body %}{% endblock %}

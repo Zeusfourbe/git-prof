@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Coaster;
 use App\Form\CoasterType;
+use App\Repository\CategoryRepository;
 use App\Repository\CoasterRepository;
+use App\Repository\ParkRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,10 +16,21 @@ use Symfony\Component\Routing\Attribute\Route;
 class CoasterController extends AbstractController
 {
     #[Route('/coaster', name: 'coaster_index', methods: ['GET'])]
-    public function index(CoasterRepository $coasterRepository): Response
-    {
+    public function index(
+        Request $request,
+        CoasterRepository $coasterRepository,
+        ParkRepository $parkRepository,
+        CategoryRepository $categoryRepository,
+    ): Response {
+        $park = $request->query->getString('park', '');
+        $category = $request->query->getString('category', '');
+
         return $this->render('coaster/index.html.twig', [
-            'coasters' => $coasterRepository->findAll(),
+            'coasters' => $coasterRepository->findFiltered($park, $category, 20, max(1, $request->query->getInt("p", 1))),
+            'parks' => $parkRepository->findBy([], ['name' => 'ASC']),
+            'categories' => $categoryRepository->findBy([], ['name' => 'ASC']),
+            'selectedPark' => $park,
+            'selectedCategory' => $category,
         ]);
     }
 

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ajouter une Catégorie{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold mb-6">Ajouter une Catégorie</h1>
+
+    <div class="bg-base-100 rounded-box shadow p-6 max-w-md">
+        {{ include('category/_form.html.twig') }}
+    </div>
+
+    <a href="{{ path('app_category_index') }}" class="btn btn-ghost mt-4">Retour à la liste</a>
+{% endblock %}
