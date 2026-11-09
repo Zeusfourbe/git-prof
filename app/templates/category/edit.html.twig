@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modifier {{ category.name }}{% endblock %}
+
+{% block body %}
+    <h1 class="text-2xl font-bold mb-6">Modifier {{ category.name }}</h1>
+
+    <div class="bg-base-100 rounded-box shadow p-6 max-w-md">
+        {{ include('category/_form.html.twig') }}
+    </div>
+
+    <a href="{{ path('app_category_index') }}" class="btn btn-ghost mt-4">Retour à la liste</a>
+{% endblock %}
